@@ -1,0 +1,247 @@
+:root {
+    --primary-color: #059669;
+    --primary-hover: #047857;
+    --secondary-color: #64748b;
+    --text-primary: #374151;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-hover: #f1f5f9;
+    --bg-active: #059669;
+    --border: #e5e7eb;
+    --border-light: #f3f4f6;
+}
+
+.sms-main-component {
+    width: 100%;
+    height: 100vh;
+    max-height: 100%;
+    display: flex;
+}
+
+.side-bar-menu {
+    width: 20%;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+}
+
+/* Logo Section */
+.side-bar-header-logo {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.school-logo {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+}
+
+.logo-subtitle {
+    font-size: 12px;
+    margin: 2px 0 0 0;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Menu Items Container */
+.lmd-sms-menu-items {
+    padding: 16px 0;
+    background: var(--bg-primary);
+}
+
+.sidebar-nav {
+    padding: 0;
+}
+
+.nav-item-container {
+    margin-bottom: 1px;
+}
+
+/* Simple Navigation Items */
+.nav-item-simple {
+    margin: 0;
+}
+
+.nav-link-simple {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    position: relative;
+}
+
+.nav-link-simple:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.nav-link-simple.active {
+    background-color: var(--bg-active);
+    color: white;
+}
+
+/* Accordion Items */
+.accordion-item-custom {
+    margin: 0;
+}
+
+.accordion-header-custom {
+    margin: 0;
+}
+
+.accordion-button-custom {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.accordion-button-custom:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.accordion-button-custom.active {
+    background-color: var(--bg-active);
+    color: white;
+}
+
+.accordion-arrow {
+    margin-left: auto;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+}
+
+.accordion-arrow.expanded {
+    transform: rotate(180deg);
+}
+
+.accordion-button-custom.active .accordion-arrow {
+    color: white;
+}
+
+/* Icons and Text */
+.nav-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: currentColor;
+}
+
+.nav-text {
+    flex: 1;
+    font-weight: 500;
+}
+
+.nav-arrow {
+    margin-left: auto;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+}
+
+/* Submenu */
+.accordion-body-custom {
+    background-color: var(--bg-secondary);
+    padding: 4px 0;
+    border-top: 1px solid var(--border-light);
+}
+
+.sub-menu-link {
+    display: block;
+    padding: 10px 20px 10px 52px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.sub-menu-link:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.sub-menu-link.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.main-content {
+    width: 80%;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    background-color: var(--bg-secondary);
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+}
+
+/* Focus states */
+.nav-link-simple:focus,
+.accordion-button-custom:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Active states for current page */
+.nav-link-simple[aria-current="page"],
+.sub-menu-link[aria-current="page"] {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .side-bar-menu {
+        width: 100% !important;
+    }
+    
+    .main-content {
+        width: 100% !important;
+    }
+    
+    .sms-main-component {
+        flex-direction: column;
+    }
+}
