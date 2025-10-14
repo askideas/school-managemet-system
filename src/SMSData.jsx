@@ -171,10 +171,10 @@ export const schoolMenuItems = [
         hasSubmenu: false
     },
     {
-        id: 'notifications',
-        label: 'Notifications',
+        id: 'noticeboard',
+        label: 'Notice Board',
         icon: <Bell size={18} />,
-        link: '/notifications',
+        link: '/noticeboard',
         hasSubmenu: false
     },
     {

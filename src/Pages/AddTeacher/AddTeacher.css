@@ -1,0 +1,104 @@
+.heading-con {
+    border-bottom: 1px solid var(--border);
+
+    h1 {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--txt-dark);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: 10px;
+        padding-bottom: 8px;
+
+        .icon {
+            width: 20px;
+        }
+    }
+}
+
+.add-teacher-container {
+    width: 100%;
+    height: fit-content;
+    background: var(--white);
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.teacher-input-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    .teacher-input-con {
+        display: flex;
+        flex-direction: column;
+        width: 49%;
+        height: fit-content;
+        margin-bottom: 20px;
+
+        label {
+            font-size: 12px;
+            color: var(--txt-dark);
+            margin-bottom: 6px;
+
+            span {
+                color: var(--red);
+            }
+        }
+
+        input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            outline: none;
+            font-size: 14px;
+            color: var(--black);
+        }
+
+        /* For Chrome, Safari, Edge, Opera */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* For Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    }
+}
+
+.actions-con {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+
+    .save-teacher-btn {
+        width: fit-content;
+        height: 40px;
+        border-radius: 8px;
+        color: var(--white);
+        background: var(--primary);
+        border: none;
+        outline: none;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 8px;
+        padding: 8px 12px;
+
+        .icon {
+            width: 16px;
+        }
+    }
+}
