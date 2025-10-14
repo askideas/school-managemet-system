@@ -78,7 +78,7 @@ const AddTeacher = () => {
             <datalist id="subjectslist">
               <option value="Telugu" />
               <option value="Hindi" />
-              <option value="Englist" />
+              <option value="English" />
               <option value="Matematics" />
               <option value="General Science" />
               <option value="Social Studies" />
