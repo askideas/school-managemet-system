@@ -1,12 +1,20 @@
 import React from 'react'
 import './AddTeacher.css'
-import { GraduationCap, User, UserPlus } from 'lucide-react'
+import { GraduationCap, Landmark, User, UserPlus } from 'lucide-react'
+import Photopreview from '../../assets/photo-preview.png'
+import ImageUploadPreview from '../../assets/image-upload-preview.png'
 
 const AddTeacher = () => {
   return (
     <>
+      <div className="top-bar-container">
+        <h1>Add Teacher</h1>
+        <div className="user-details">
+          <User style={{color: '#ffffff', width: '20px'}} />
+          <span className="user-active"><span></span></span>
+        </div>
+      </div>
       {/* Personal Details Section */}
-      <div className="add-teacher-heading-container"></div>
 
       <div className="add-teacher-personal-details-form-container add-teacher-container">
         <div className="heading-con">
@@ -50,6 +58,34 @@ const AddTeacher = () => {
             <label htmlFor="">Address <span>*</span></label>
             <input type="text" placeholder='Address' />
           </div>
+
+          <div className="teacher-upload-con">
+            <label htmlFor="">Photo <span>*</span></label>
+            <div className="preview-con">
+              <img src={Photopreview} alt="" />
+            </div>
+            <div className="upload-actions">
+              <button className="upload-btn">Choose file</button>
+              <button className="upload-cancel">Remove</button>
+            </div>
+          </div>
+
+          <div className="teacher-upload-con">
+            <label htmlFor="">Governament ID <span>*</span></label>
+            <div className="preview-con">
+              <img src={ImageUploadPreview} alt="" />
+            </div>
+            <div className="upload-actions">
+              <button className="upload-btn">Choose file</button>
+              <button className="upload-cancel">Remove</button>
+            </div>
+          </div>
+
+          <div className="teacher-input-con">
+            <label htmlFor="">Govername ID Number <span>*</span></label>
+            <input type="text" placeholder='Governament ID Number' />
+          </div>
+
         </div>
       </div>
 
@@ -102,6 +138,35 @@ const AddTeacher = () => {
           <div className="teacher-input-con">
             <label htmlFor="">Passedout Year <span>*</span></label>
             <input type="text" placeholder='Passedout Year' />
+          </div>
+        </div>
+      </div>
+
+      {/* Bank Details Section */}
+      <div className="add-teacher-bank-details-form-container add-teacher-container">
+        <div className="heading-con">
+          <h1><Landmark className='icon' /> Bank Details</h1>
+        </div>
+
+        <div className="teacher-input-container">
+          <div className="teacher-input-con">
+            <label htmlFor="">Bank Name <span>*</span></label>
+            <input type="text" placeholder='Bank Name' />
+          </div>
+
+          <div className="teacher-input-con">
+            <label htmlFor="">Account Number <span>*</span></label>
+            <input type="text" placeholder='Account Number' />
+          </div>
+
+          <div className="teacher-input-con">
+            <label htmlFor="">IFSC Code <span>*</span></label>
+            <input type="text" placeholder='IFSC Code' />
+          </div>
+
+          <div className="teacher-input-con">
+            <label htmlFor="">UPI Id <span>*</span></label>
+            <input type="text" placeholder='UPI Id' />
           </div>
         </div>
       </div>
