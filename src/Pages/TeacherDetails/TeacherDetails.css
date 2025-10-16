@@ -3,7 +3,7 @@
     height: fit-content;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 
     .teacher-details-left-section {
         width: 74%;
@@ -111,10 +111,179 @@
                 }
             }
         }
+
+        .bank-details-section {
+            padding: 24px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin: 24px 0;
+            box-shadow: var(--box-shadow);
+
+            h1 {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--txt-dark);
+                margin-bottom: 30px;
+            }
+        }
+
+        .bank-details-grid-con {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+
+            .icon-container {
+                width: 100%;
+                height: fit-content;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                column-gap: 8px;
+
+                .icon-con {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background: var(--orange);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .icon {
+                        color: var(--white);
+                        width: 22px;
+                    }
+                }
+
+                .icon-con-details {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+
+                    .sub {
+                        font-size: 12px;
+                        color: var(--txt-light);
+                        margin: 0;
+                    }
+
+                    .item {
+                        font-size: 14px;
+                        color: var(--primary);
+                        margin: 0;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
     }
 
     .teacher-details-right-section {
         width: 24%;
         height: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        .professional-details-container {
+            width: 100%;
+            height: fit-content;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--txt-dark);
+            box-shadow: var(--box-shadow);
+            padding: 16px;
+            margin-bottom: 30px;
+
+            h1 {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--txt-dark);
+                margin-bottom: 30px;
+            }
+
+            p {
+                margin: 0;
+
+                strong {
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: var(--txt-light);
+                }
+
+                span {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .qualifications-details-container {
+            width: 100%;
+            height: fit-content;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--red);
+            box-shadow: var(--box-shadow);
+            padding: 16px;
+            margin-bottom: 30px;
+
+            h1 {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--txt-dark);
+                margin-bottom: 30px;
+            }
+
+            p {
+                margin: 0;
+                
+                strong {
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: var(--txt-light);
+                }
+
+                span {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .additional-details-container {
+            width: 100%;
+            height: fit-content;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--yellow);
+            box-shadow: var(--box-shadow);
+            padding: 16px;
+            margin-bottom: 30px;
+
+            h1 {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--txt-dark);
+                margin-bottom: 30px;
+            }
+
+            p {
+                margin: 0;
+                
+                strong {
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: var(--txt-light);
+                }
+
+                span {
+                    font-size: 16px;
+                }
+            }
+        }
     }
 }
