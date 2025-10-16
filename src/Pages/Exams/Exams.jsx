@@ -1,6 +1,6 @@
 import React from 'react'
 import './Exams.css'
-import { Calendar, Clock } from 'lucide-react'
+import { Calendar, Clock, User } from 'lucide-react'
 
 const Exams = () => {
     return (

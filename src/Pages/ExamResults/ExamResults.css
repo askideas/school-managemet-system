@@ -1,0 +1,155 @@
+.exam-results-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f7f8fc;
+}
+
+.add-result-container,
+.result-list-container {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.add-result-container {
+  flex: 1;
+  max-width: 380px;
+}
+
+.result-list-container {
+  flex: 2.5;
+}
+
+.add-result-container h2,
+.result-list-container h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.add-result-container label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
+
+.add-result-container input,
+.add-result-container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #f9fafc;
+}
+
+.input-icon {
+  position: relative;
+}
+
+.input-icon input {
+  width: 100%;
+  padding-right: 28px;
+}
+
+.input-icon-symbol {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #666;
+}
+
+.exam-btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.save-btn {
+  background-color: #ffb100;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reset-btn {
+  background-color: #13274f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.result-search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.result-search-bar input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.search-btn {
+  background-color: #ffb100;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background-color: #f3f4f6;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+.status-badge.pass {
+  background-color: #e7f8ef;
+  color: #1a8f5f;
+}
+
+.status-badge.fail {
+  background-color: #fde8e8;
+  color: #d93025;
+}
