@@ -5,6 +5,7 @@ import Dashboard from './Pages/Dashboard/Dashboard'
 import { schoolMenuItems } from './SMSData'
 import AddTeacher from './Pages/AddTeacher/AddTeacher'
 import Teachers from './Pages/Teachers/Teachers'
+import TeacherDetails from './Pages/TeacherDetails/TeacherDetails'
 
 const App = () => {
   const [activeAccordion, setActiveAccordion] = useState('billing')
@@ -101,6 +102,7 @@ const App = () => {
               <Route path="/" element={<Dashboard />} />
               <Route path="/addteacher" element={<AddTeacher />} />
               <Route path="/teachers" element={<Teachers />} />
+              <Route path="/teachers/:teacherId" element={<TeacherDetails />} />
             </Routes>
           </div>
         </div>
