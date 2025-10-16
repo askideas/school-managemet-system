@@ -101,9 +101,9 @@ export const schoolMenuItems = [
                 link: '/expenses'
             },
             {
-                id: 'salary',
-                label: 'Salary',
-                link: '/salary'
+                id: 'payroll',
+                label: 'Payroll',
+                link: '/payroll'
             },
             {
                 id: 'financial-reports',

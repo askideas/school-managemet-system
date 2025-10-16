@@ -1,0 +1,250 @@
+.expenses-container {
+  background-color: #f5f6fa;
+  min-height: 100vh;
+  padding: 25px;
+}
+
+/* Row & Col */
+.expenses-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.expenses-col {
+  flex: 1 1 calc(25% - 20px);
+  min-width: 150px;
+}
+
+.expenses-col-lg-4 {
+  flex: 1 1 calc(33% - 20px);
+  min-width: 200px;
+}
+
+.expenses-col-lg-12 {
+  flex: 1 1 100%;
+}
+
+/* Cards */
+.expenses-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.expenses-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.expenses-icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.bg-green { background-color: #c8f7c5; color: #27ae60; }
+.bg-blue { background-color: #d6e4ff; color: #4d44b5; }
+.bg-yellow { background-color: #fff3cd; color: #ffb74d; }
+.bg-red { background-color: #fdecea; color: #e74c3c; }
+.bg-purple { background-color: #e0d4ff; color: #4d44b5; }
+
+/* Text */
+.expenses-text-muted {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+.expenses-card-number {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Table */
+.expenses-table-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.expenses-table-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.expenses-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.expenses-table th,
+.expenses-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.expenses-btn {
+  padding: 5px 10px;
+  border: none;
+  background-color: #4D44B5;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Inputs */
+.expenses-input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+/* Chart Card */
+.expenses-chart-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
+}
+
+.expenses-chart-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Align row items vertically center */
+.expenses-align-center {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Auto-width column for button */
+.expenses-col-lg-auto {
+  flex: 0 0 auto;
+}
+
+/* Add Expense button spacing */
+.expenses-add-btn {
+  padding: 8px 15px;
+  background-color: #4D44B5;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.2s ease;
+}
+
+.expenses-add-btn:hover {
+  background-color: #3a379d;
+}
+
+/* Add Expense button */
+.expenses-add-btn {
+  padding: 8px 15px;
+  background-color: #4D44B5;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Edit and Delete Buttons */
+.expenses-btn-edit {
+  padding: 5px 10px;
+  background-color: #4D44B5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: 0.2s ease;
+}
+
+.expenses-btn-edit:hover {
+  background-color: #3a379d;
+}
+
+.expenses-btn-delete {
+  padding: 5px 10px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.expenses-btn-delete:hover {
+  background-color: #c0392b;
+}
+
+/* Modal Overlay */
+.expenses-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal Box */
+.expenses-modal {
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Modal Inputs */
+.expenses-modal-input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Modal Actions */
+.expenses-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
