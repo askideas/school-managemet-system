@@ -1,0 +1,140 @@
+.slots-container {
+  background-color: #f5f6fa;
+  padding: 25px;
+  min-height: 100vh;
+}
+
+.slots-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Columns */
+.slots-col-lg-4 {
+  flex: 1 1 30%;
+}
+
+.slots-col-lg-8 {
+  flex: 1 1 65%;
+}
+
+/* =====================
+   Form Card
+===================== */
+.slots-form-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.slots-form-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.slots-input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.slots-save-btn {
+  padding: 8px 15px;
+  background-color: #4D44B5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.2s;
+}
+
+.slots-save-btn:hover {
+  background-color: #3a379d;
+}
+
+/* =====================
+   Table Card
+===================== */
+.slots-table-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.slots-table-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.slots-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.slots-table th,
+.slots-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  text-align: left;
+}
+
+/* =====================
+   Buttons
+===================== */
+.slots-edit-btn,
+.slots-delete-btn {
+  padding: 5px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 5px;
+  transition: 0.2s;
+}
+
+.slots-edit-btn {
+  background-color: #4D44B5;
+  color: #fff;
+}
+
+.slots-edit-btn:hover {
+  background-color: #3a379d;
+}
+
+.slots-delete-btn {
+  background-color: #FF5252;
+  color: #fff;
+}
+
+.slots-delete-btn:hover {
+  background-color: #e04b4b;
+}
+
+/* Add any necessary width adjustments for time inputs */
+.slots-input[type="time"] {
+  width: 100%;
+}
+
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+  .slots-col-lg-4, .slots-col-lg-8 {
+    flex: 1 1 100%;
+  }
+}

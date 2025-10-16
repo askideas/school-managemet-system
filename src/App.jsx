@@ -16,6 +16,7 @@ import StudentFee from './Pages/StudentFee/StudentFee'
 import Expenses from './Pages/Expenses/Expenses'
 import Payroll from './Pages/Payroll/Payroll'
 import FinanceReport from './Pages/FinanceReport/FinanceReport'
+import Slots from './Pages/Slots/Slots'
 
 const App = () => {
   const [activeAccordion, setActiveAccordion] = useState('billing')
@@ -123,6 +124,7 @@ const App = () => {
               <Route path="/expenses" element={<Expenses />} />
               <Route path="/payroll" element={<Payroll />} />
               <Route path="/financereport" element={<FinanceReport />} />
+              <Route path="/slots" element={<Slots />} />
             </Routes>
           </div>
         </div>
