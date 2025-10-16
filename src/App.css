@@ -218,6 +218,11 @@
     color: white;
 }
 
+table.table-striped>tbody>tr:nth-of-type(odd)>* {
+    --bs-table-color-type: var(--primary);
+    --bs-table-bg-type: var(--primary-shade);
+}
+
 .top-bar-container {
     width: 100%;
     height: 70px;

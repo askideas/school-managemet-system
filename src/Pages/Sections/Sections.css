@@ -1,0 +1,80 @@
+.sections-main-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.sections-form-container {
+  width: 40%;
+  height: fit-content;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--white);
+  padding: 16px;
+}
+
+.add-section-heading {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--txt-dark);
+  margin-bottom: 24px;
+}
+
+.input-section-con {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 26px;
+}
+
+.input-section-con label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+
+.input-section-con label span {
+  color: var(--red);
+}
+
+.input-section-con input {
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  outline: none;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--txt-light);
+  padding: 16px;
+}
+
+.section-form-actions-con {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
+}
+
+.section-form-actions-con button {
+  border: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.reset-form-container {
+  background: var(--red-shade);
+  color: var(--red);
+}
+
+.add-section-btn {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.sections-list-container {
+  width: 59%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--white);
+  padding: 16px;
+}

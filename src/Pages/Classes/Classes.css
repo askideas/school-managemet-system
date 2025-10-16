@@ -1,0 +1,88 @@
+.classes-main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .classes-form-container {
+        width: 40%;
+        height: fit-content;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--white);
+        padding: 16px;
+
+        .add-class-heading {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--txt-dark);
+            margin-bottom: 24px;
+        }
+
+        .input-class-con {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-bottom: 26px;
+
+            label {
+                font-size: 13px;
+                font-weight: 500;
+                color: var(--primary);
+                margin-bottom: 6px;
+
+                span {
+                    color: var(--red);
+                }
+            }
+
+            input {
+                width: 100%;
+                height: 50px;
+                border-radius: 12px;
+                outline: none;
+                border: 1px solid var(--border);
+                font-size: 14px;
+                color: var(--txt-light);
+                padding: 16px;
+            }
+        }
+
+        .class-form-actions-con {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            column-gap: 10px;
+
+            button {
+                width: fit-content;
+                height: fit-content;
+                border: none;
+                outline: none;
+                border-radius: 12px;
+                padding: 8px 12px;
+                font-size: 13px;
+                
+                &.reset-form-container {
+                    background: var(--red-shade);
+                    color: var(--red);
+                }
+
+                &.add-class-btn {
+                    background: var(--primary);
+                    color: var(--white);
+                }
+            }
+        }
+    }
+
+    .classes-list-container {
+        width: 59%;
+        height: fit-content;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--white);
+        padding: 16px;
+    }
+
+}

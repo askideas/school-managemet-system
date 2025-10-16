@@ -6,6 +6,9 @@ import { schoolMenuItems } from './SMSData'
 import AddTeacher from './Pages/AddTeacher/AddTeacher'
 import Teachers from './Pages/Teachers/Teachers'
 import TeacherDetails from './Pages/TeacherDetails/TeacherDetails'
+import Classes from './Pages/Classes/Classes'
+import Sections from './Pages/Sections/Sections'
+import Subjects from './Pages/Subjects/Subjects'
 
 const App = () => {
   const [activeAccordion, setActiveAccordion] = useState('billing')
@@ -103,6 +106,9 @@ const App = () => {
               <Route path="/addteacher" element={<AddTeacher />} />
               <Route path="/teachers" element={<Teachers />} />
               <Route path="/teachers/:teacherId" element={<TeacherDetails />} />
+              <Route path="/classes" element={<Classes />} />
+              <Route path="/sections" element={<Sections />} />
+              <Route path="/subjects" element={<Subjects />} />
             </Routes>
           </div>
         </div>

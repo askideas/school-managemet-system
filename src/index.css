@@ -2,6 +2,7 @@
 
 :root {
     --primary: #4D44B5;
+    --primary-shade: rgba(77, 68, 181, .1);
     --violet: #4D44B5;
     --border: #e5e7eb;
     --red: #fd5353;
@@ -24,6 +25,7 @@
     --green: #17c666;
     --green-shade: #e1fbed;
     --orange: #FB7D5B;
+    --orange-shade: rgba(251, 125, 91, .1);
     --yellow: #fd0;
 
     --txt-dark: #303972;

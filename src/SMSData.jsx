@@ -59,40 +59,26 @@ export const schoolMenuItems = [
         ]
     },
     {
-        id: 'classes',
-        label: 'Classes',
+        id: 'academic',
+        label: 'Academic',
         icon: <School size={18} />,
         link: false,
         hasSubmenu: true,
         subItems: [
             {
-                id: 'all-classes',
-                label: 'All Classes',
+                id: 'classes',
+                label: 'Classes',
                 link: '/classes'
             },
             {
-                id: 'add-class',
-                label: 'Add Class',
-                link: '/addclass'
+                id: 'sections',
+                label: 'Sections',
+                link: '/sections'
             },
-        ]
-    },
-    {
-        id: 'subjects',
-        label: 'Subjects',
-        icon: <BookOpen size={18} />,
-        link: false,
-        hasSubmenu: true,
-        subItems: [
             {
-                id: 'all-subjects',
-                label: 'All Subjects',
+                id: 'subjects',
+                label: 'Subjects',
                 link: '/subjects'
-            },
-            {
-                id: 'add-subject',
-                label: 'Add Subject',
-                link: '/addsubjects'
             },
         ]
     },
