@@ -10,7 +10,8 @@ import {
     ClipboardList,
     Settings,
     Bell,
-    IndianRupee
+    IndianRupee,
+    PencilRuler
 } from "lucide-react";
 
 export const schoolMenuItems = [
@@ -106,7 +107,7 @@ export const schoolMenuItems = [
                 link: '/payroll'
             },
             {
-                id: 'financial-reports',
+                id: 'financereport',
                 label: 'Finance Reports',
                 link: '/financereport'
             }
@@ -132,24 +133,53 @@ export const schoolMenuItems = [
         ]
     },
     {
+        id: 'timetablessection',
+        label: 'Time Tables',
+        icon: <PencilRuler size={18} />,
+        link: false,
+        hasSubmenu: true,
+        subItems: [
+            {
+                id: 'slots',
+                label: 'Slots',
+                link: '/slots'
+            },
+            {
+                id: 'timetables',
+                label: 'Time Tables',
+                link: '/timetables'
+            }
+        ]
+    },
+    {
         id: 'attendance',
         label: 'Attendance',
         icon: <Calendar size={18} />,
         link: '/attendance',
-        hasSubmenu: false
+        hasSubmenu: true,
+        subItems: [
+            {
+                id: 'studentsattendance',
+                label: 'Students Attendance',
+                link: '/studentsattendance'
+            },
+            {
+                id: 'teachersAttendance',
+                label: 'Teachers Attendance',
+                link: '/teachersattendance'
+            },
+            {
+                id: 'staffattendance',
+                label: 'Staff Attendance',
+                link: '/staffattendance'
+            }
+        ]
     },
     {
         id: 'library',
         label: 'Library',
         icon: <BookOpen size={18} />,
         link: '/library',
-        hasSubmenu: false
-    },
-    {
-        id: 'transport',
-        label: 'Transport',
-        icon: <Clock size={18} />,
-        link: '/transport',
         hasSubmenu: false
     },
     {
