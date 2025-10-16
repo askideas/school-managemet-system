@@ -25,6 +25,9 @@
     --green-shade: #e1fbed;
 
     --txt-dark: #303972;
+    --txt-light: #646464;
+
+    --box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75)
 }
 
 body {

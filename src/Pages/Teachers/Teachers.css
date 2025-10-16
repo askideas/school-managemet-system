@@ -1,0 +1,52 @@
+.teachers-list-container {
+  width: 100%;
+  height: fit-content;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  padding: 16px;
+}
+
+/* Prevent table cells from wrapping text */
+.teachers-list-container table {
+  white-space: nowrap; /* Keep content in a single line */
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Optional: Make sure table fits inside scroll area */
+.teachers-list-container table th,
+.teachers-list-container table td {
+  text-align: left;
+  padding: 8px 16px;
+  vertical-align: middle;
+}
+
+/* Optional scrollbar styling */
+.teachers-list-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.teachers-list-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+.teachers-list-container table th {
+    font-weight: 14px;
+    color: var(--txt-dark);
+    font-weight: 500;
+}
+
+.teachers-list-container table td {
+    color: #646464;
+    font-size: 14px;
+}
+
+.icon {
+    width: 20px;
+    color: var(--txt-dark);
+    cursor: pointer;
+}

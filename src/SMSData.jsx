@@ -29,7 +29,7 @@ export const schoolMenuItems = [
         subItems: [
             {
                 id: 'all-teachers',
-                label: 'All Teachers',
+                label: 'Teachers',
                 link: '/teachers'
             },
             {
