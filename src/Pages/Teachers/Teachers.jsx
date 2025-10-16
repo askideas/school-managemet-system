@@ -2,6 +2,7 @@ import React from 'react'
 import './Teachers.css'
 import { Eye, User } from 'lucide-react'
 import Photopreview from '../../assets/user-avatar-emplyee.svg'
+import { NavLink } from 'react-router-dom'
 
 const Teachers = () => {
   return (
@@ -43,7 +44,7 @@ const Teachers = () => {
               <td>+91 9398638314</td>
               <td>arumullasivakrishna6@gmail.com</td>
               <td>Janasakthi Nagar, Vedayapalem, Nellore-4</td>
-              <td><Eye className='icon' /></td>
+              <td><NavLink to='/teachers/1'><Eye className='icon' /></NavLink></td>
             </tr>
 
             <tr>
@@ -57,7 +58,7 @@ const Teachers = () => {
               <td>+91 9398638314</td>
               <td>arumullasivakrishna6@gmail.com</td>
               <td>Janasakthi Nagar, Vedayapalem, Nellore-4</td>
-              <td><Eye className='icon' /></td>
+              <td><NavLink to='/teachers/1'><Eye className='icon' /></NavLink></td>
             </tr>
 
             <tr>
@@ -71,7 +72,7 @@ const Teachers = () => {
               <td>+91 9398638314</td>
               <td>arumullasivakrishna6@gmail.com</td>
               <td>Janasakthi Nagar, Vedayapalem, Nellore-4</td>
-              <td><Eye className='icon' /></td>
+              <td><NavLink to='/teachers/1'><Eye className='icon' /></NavLink></td>
             </tr>
 
             <tr>
@@ -85,7 +86,7 @@ const Teachers = () => {
               <td>+91 9398638314</td>
               <td>arumullasivakrishna6@gmail.com</td>
               <td>Janasakthi Nagar, Vedayapalem, Nellore-4</td>
-              <td><Eye className='icon' /></td>
+              <td><NavLink to='/teachers/1'><Eye className='icon' /></NavLink></td>
             </tr>
 
           </tbody>
