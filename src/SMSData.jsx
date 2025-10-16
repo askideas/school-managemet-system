@@ -9,7 +9,8 @@ import {
     DollarSign,
     ClipboardList,
     Settings,
-    Bell
+    Bell,
+    IndianRupee
 } from "lucide-react";
 
 export const schoolMenuItems = [
@@ -85,7 +86,7 @@ export const schoolMenuItems = [
     {
         id: 'finance',
         label: 'Finance',
-        icon: <DollarSign size={18} />,
+        icon: <IndianRupee size={18} />,
         link: false,
         hasSubmenu: true,
         subItems: [
@@ -119,18 +120,13 @@ export const schoolMenuItems = [
         hasSubmenu: true,
         subItems: [
             {
-                id: 'all-exams',
-                label: 'All Exams',
+                id: 'exams',
+                label: 'Exams',
                 link: '/exams'
             },
             {
-                id: 'create-exam',
-                label: 'Add Exam',
-                link: '/addexam'
-            },
-            {
-                id: 'results',
-                label: 'Results',
+                id: 'examresults',
+                label: 'Exam Results',
                 link: '/examresults'
             }
         ]

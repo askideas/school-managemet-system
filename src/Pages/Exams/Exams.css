@@ -1,0 +1,132 @@
+.exams-container {
+  display: flex;
+  gap: 20px;
+  background-color: #f7f8fc;
+}
+
+.add-exam-container,
+.exam-schedule-container {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.add-exam-container {
+  flex: 1;
+  max-width: 380px;
+}
+
+.exam-schedule-container {
+  flex: 2.5;
+}
+
+.add-exam-container h2,
+.exam-schedule-container h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.add-exam-container label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
+
+.add-exam-container input,
+.add-exam-container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f9fafc;
+}
+
+.input-icon {
+  position: relative;
+}
+
+.input-icon input {
+  width: 100%;
+  padding-right: 28px;
+}
+
+.input-icon-symbol {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #666;
+}
+
+.exam-btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.save-btn {
+  background-color: #ffb100;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reset-btn {
+  background-color: #13274f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.exam-search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.exam-search-bar input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.search-btn {
+  background-color: #ffb100;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background-color: #f3f4f6;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+tbody tr:hover {
+  background-color: #fafafa;
+}
