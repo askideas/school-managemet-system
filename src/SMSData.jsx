@@ -91,9 +91,9 @@ export const schoolMenuItems = [
         hasSubmenu: true,
         subItems: [
             {
-                id: 'student-fees',
-                label: 'Student Fees',
-                link: '/studentfees'
+                id: 'studentfee',
+                label: 'Student Fee',
+                link: '/studentfee'
             },
             {
                 id: 'expenses',

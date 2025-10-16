@@ -12,6 +12,7 @@ import Subjects from './Pages/Subjects/Subjects'
 import NoticeBoard from './Pages/NoticeBoard/NoticeBoard'
 import Exams from './Pages/Exams/Exams'
 import ExamResults from './Pages/ExamResults/ExamResults'
+import StudentFee from './Pages/StudentFee/StudentFee'
 
 const App = () => {
   const [activeAccordion, setActiveAccordion] = useState('billing')
@@ -115,6 +116,7 @@ const App = () => {
               <Route path="/exams" element={<Exams />} />
               <Route path="/examresults" element={<ExamResults />} />
               <Route path="/noticeboard" element={<NoticeBoard />} />
+              <Route path="/studentfee" element={<StudentFee />} />
             </Routes>
           </div>
         </div>
