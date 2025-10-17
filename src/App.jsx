@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './App.css'
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Dashboard from './Pages/Dashboard/Dashboard'
 import { schoolMenuItems } from './SMSData'
 import AddTeacher from './Pages/AddTeacher/AddTeacher'
@@ -18,6 +18,48 @@ import Payroll from './Pages/Payroll/Payroll'
 import FinanceReport from './Pages/FinanceReport/FinanceReport'
 import Slots from './Pages/Slots/Slots'
 import AddStaff from './Pages/AddStaff/AddStaff'
+import ManageStaff from './Pages/ManageStaff/ManageStaff'
+
+// Component to display page title based on route
+const TopBar = () => {
+  const location = useLocation()
+  
+  const getPageTitle = () => {
+    const path = location.pathname
+    const titleMap = {
+      '/': 'Dashboard',
+      '/addteacher': 'Add Teacher',
+      '/addstaff': 'Add Staff',
+      '/staff': 'Manage Staff',
+      '/teachers': 'Teachers',
+      '/classes': 'Classes',
+      '/sections': 'Sections',
+      '/subjects': 'Subjects',
+      '/exams': 'Exams',
+      '/examresults': 'Exam Results',
+      '/noticeboard': 'Notice Board',
+      '/studentfee': 'Student Fee',
+      '/expenses': 'Expenses',
+      '/payroll': 'Payroll',
+      '/financereport': 'Finance Report',
+      '/slots': 'Slots'
+    }
+    
+    return titleMap[path] || 'School Management System'
+  }
+
+  return (
+    <div className="top-bar-container">
+      <h1>{getPageTitle()}</h1>
+      <div className="user-details">
+        <span style={{ color: 'white', fontWeight: '600' }}>A</span>
+        <div className="user-active">
+          <span></span>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const App = () => {
   const [activeAccordion, setActiveAccordion] = useState('billing')
@@ -105,15 +147,14 @@ const App = () => {
 
         {/* Main Content */}
         <div className="main-content">
-          <div className="top-bar-content-container">
-            {/* Optional top bar content */}
-          </div>
+          <TopBar />
 
           <div className="routes-main-container">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/addteacher" element={<AddTeacher />} />
               <Route path="/addstaff" element={<AddStaff />} />
+              <Route path="/staff" element={<ManageStaff />} />
               <Route path="/teachers" element={<Teachers />} />
               <Route path="/teachers/:teacherId" element={<TeacherDetails />} />
               <Route path="/classes" element={<Classes />} />

@@ -1,23 +1,8 @@
 import React, { useState } from 'react'
 import './AddStaff.css'
-import { initializeApp } from 'firebase/app'
-import { getFirestore, doc, setDoc } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { User, Mail, Phone, MapPin, Calendar, Briefcase, Upload, Save, X } from 'lucide-react'
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCivm3uoYsHrkOdKTnd94DIig6RepvkJtg",
-  authDomain: "school-management-system-7fe4e.firebaseapp.com",
-  projectId: "school-management-system-7fe4e",
-  storageBucket: "school-management-system-7fe4e.firebasestorage.app",
-  messagingSenderId: "841425938779",
-  appId: "1:841425938779:web:f21b847d8c66fee736527e",
-  measurementId: "G-95R4259KK1"
-}
-
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
-const storage = getStorage(app)
+import { doc, setDoc } from 'firebase/firestore'
+import { User, Mail, Phone, MapPin, Calendar, Briefcase, Save, X } from 'lucide-react'
+import { db } from '../../firebase'
 
 const AddStaff = () => {
   const [formData, setFormData] = useState({
@@ -45,8 +30,6 @@ const AddStaff = () => {
     panNumber: ''
   })
 
-  const [profileImage, setProfileImage] = useState(null)
-  const [imagePreview, setImagePreview] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -57,27 +40,6 @@ const AddStaff = () => {
       ...prev,
       [name]: value
     }))
-  }
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      setProfileImage(file)
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImagePreview(reader.result)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  const uploadImage = async (mobile) => {
-    if (!profileImage) return null
-    
-    const imageRef = ref(storage, `staff/${mobile}/profile.jpg`)
-    await uploadBytes(imageRef, profileImage)
-    const imageUrl = await getDownloadURL(imageRef)
-    return imageUrl
   }
 
   const handleSubmit = async (e) => {
@@ -99,21 +61,35 @@ const AddStaff = () => {
     setLoading(true)
 
     try {
-      // Upload image if exists
-      let imageUrl = null
-      if (profileImage) {
-        imageUrl = await uploadImage(formData.mobile)
-      }
-
-      // Add staff to Firestore
       const staffData = {
-        ...formData,
-        profileImage: imageUrl,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        mobile: formData.mobile,
+        dateOfBirth: formData.dateOfBirth,
+        gender: formData.gender,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        pincode: formData.pincode,
+        staffType: formData.staffType,
+        department: formData.department,
+        designation: formData.designation,
+        qualification: formData.qualification,
+        experience: formData.experience,
+        joiningDate: formData.joiningDate,
+        salary: formData.salary,
+        bloodGroup: formData.bloodGroup,
+        emergencyContact: formData.emergencyContact,
+        emergencyContactName: formData.emergencyContactName,
+        aadharNumber: formData.aadharNumber,
+        panNumber: formData.panNumber,
         createdAt: new Date().toISOString(),
         status: 'active'
       }
 
       await setDoc(doc(db, 'Staff', formData.mobile), staffData)
+      console.log('Staff saved successfully!')
 
       setSuccess('Staff added successfully!')
       
@@ -142,13 +118,11 @@ const AddStaff = () => {
         aadharNumber: '',
         panNumber: ''
       })
-      setProfileImage(null)
-      setImagePreview(null)
 
       setTimeout(() => setSuccess(''), 3000)
     } catch (err) {
-      console.error('Error adding staff:', err)
-      setError('Failed to add staff. Please try again.')
+      console.error('Error details:', err)
+      setError(`Failed to add staff: ${err.message}`)
     } finally {
       setLoading(false)
     }
@@ -179,64 +153,39 @@ const AddStaff = () => {
       aadharNumber: '',
       panNumber: ''
     })
-    setProfileImage(null)
-    setImagePreview(null)
     setError('')
     setSuccess('')
   }
 
   return (
     <div className="add-staff-container">
+      {/* Fixed Alert Messages */}
+      {error && (
+        <div className="alert alert-danger alert-fixed">
+          <X size={18} />
+          <span>{error}</span>
+          <button className="alert-close" onClick={() => setError('')}>
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
+      {success && (
+        <div className="alert alert-success alert-fixed">
+          <Save size={18} />
+          <span>{success}</span>
+          <button className="alert-close" onClick={() => setSuccess('')}>
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
       <div className="add-staff-header">
         <h2>Add New Staff</h2>
         <p>Fill in the details below to add a new staff member</p>
       </div>
 
-      {error && (
-        <div className="alert alert-danger">
-          <X size={18} />
-          <span>{error}</span>
-        </div>
-      )}
-
-      {success && (
-        <div className="alert alert-success">
-          <Save size={18} />
-          <span>{success}</span>
-        </div>
-      )}
-
       <form onSubmit={handleSubmit} className="add-staff-form">
-        {/* Profile Image Section */}
-        <div className="form-section">
-          <h3 className="section-title">Profile Photo</h3>
-          <div className="profile-upload-section">
-            <div className="image-preview">
-              {imagePreview ? (
-                <img src={imagePreview} alt="Preview" />
-              ) : (
-                <div className="placeholder-icon">
-                  <User size={48} />
-                </div>
-              )}
-            </div>
-            <div className="upload-controls">
-              <label htmlFor="profileImage" className="upload-btn">
-                <Upload size={18} />
-                <span>Upload Photo</span>
-                <input
-                  type="file"
-                  id="profileImage"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  style={{ display: 'none' }}
-                />
-              </label>
-              <p className="upload-hint">Allowed formats: JPG, PNG (Max 2MB)</p>
-            </div>
-          </div>
-        </div>
-
         {/* Personal Information */}
         <div className="form-section">
           <h3 className="section-title">Personal Information</h3>
@@ -244,7 +193,7 @@ const AddStaff = () => {
             <div className="form-group">
               <label>First Name <span className="required">*</span></label>
               <div className="input-with-icon">
-                <User size={18} />
+                <User size={18} className="input-icon" />
                 <input
                   type="text"
                   name="firstName"
@@ -259,7 +208,7 @@ const AddStaff = () => {
             <div className="form-group">
               <label>Last Name <span className="required">*</span></label>
               <div className="input-with-icon">
-                <User size={18} />
+                <User size={18} className="input-icon" />
                 <input
                   type="text"
                   name="lastName"
@@ -274,7 +223,7 @@ const AddStaff = () => {
             <div className="form-group">
               <label>Email <span className="required">*</span></label>
               <div className="input-with-icon">
-                <Mail size={18} />
+                <Mail size={18} className="input-icon" />
                 <input
                   type="email"
                   name="email"
@@ -289,7 +238,7 @@ const AddStaff = () => {
             <div className="form-group">
               <label>Mobile Number <span className="required">*</span></label>
               <div className="input-with-icon">
-                <Phone size={18} />
+                <Phone size={18} className="input-icon" />
                 <input
                   type="tel"
                   name="mobile"
@@ -305,7 +254,7 @@ const AddStaff = () => {
             <div className="form-group">
               <label>Date of Birth</label>
               <div className="input-with-icon">
-                <Calendar size={18} />
+                <Calendar size={18} className="input-icon" />
                 <input
                   type="date"
                   name="dateOfBirth"
@@ -381,7 +330,7 @@ const AddStaff = () => {
             <div className="form-group full-width">
               <label>Address</label>
               <div className="input-with-icon">
-                <MapPin size={18} />
+                <MapPin size={18} className="input-icon" />
                 <input
                   type="text"
                   name="address"
@@ -435,7 +384,7 @@ const AddStaff = () => {
             <div className="form-group">
               <label>Staff Type <span className="required">*</span></label>
               <div className="input-with-icon">
-                <Briefcase size={18} />
+                <Briefcase size={18} className="input-icon" />
                 <select
                   name="staffType"
                   value={formData.staffType}
@@ -500,7 +449,7 @@ const AddStaff = () => {
             <div className="form-group">
               <label>Joining Date</label>
               <div className="input-with-icon">
-                <Calendar size={18} />
+                <Calendar size={18} className="input-icon" />
                 <input
                   type="date"
                   name="joiningDate"
@@ -542,7 +491,7 @@ const AddStaff = () => {
             <div className="form-group">
               <label>Emergency Contact Number</label>
               <div className="input-with-icon">
-                <Phone size={18} />
+                <Phone size={18} className="input-icon" />
                 <input
                   type="tel"
                   name="emergencyContact"
