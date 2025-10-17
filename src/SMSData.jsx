@@ -11,7 +11,8 @@ import {
     Settings,
     Bell,
     IndianRupee,
-    PencilRuler
+    PencilRuler,
+    Briefcase
 } from "lucide-react";
 
 export const schoolMenuItems = [
@@ -38,6 +39,25 @@ export const schoolMenuItems = [
                 id: 'add-teacher',
                 label: 'Add Teacher',
                 link: '/addteacher'
+            },
+        ]
+    },
+    {
+        id: 'staff',
+        label: 'Staff',
+        icon: <Briefcase size={18} />,
+        link: false,
+        hasSubmenu: true,
+        subItems: [
+            {
+                id: 'all-staff',
+                label: 'All Staff',
+                link: '/staff'
+            },
+            {
+                id: 'add-staff',
+                label: 'Add Staff',
+                link: '/addstaff'
             },
         ]
     },

@@ -17,6 +17,7 @@ import Expenses from './Pages/Expenses/Expenses'
 import Payroll from './Pages/Payroll/Payroll'
 import FinanceReport from './Pages/FinanceReport/FinanceReport'
 import Slots from './Pages/Slots/Slots'
+import AddStaff from './Pages/AddStaff/AddStaff'
 
 const App = () => {
   const [activeAccordion, setActiveAccordion] = useState('billing')
@@ -112,6 +113,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/addteacher" element={<AddTeacher />} />
+              <Route path="/addstaff" element={<AddStaff />} />
               <Route path="/teachers" element={<Teachers />} />
               <Route path="/teachers/:teacherId" element={<TeacherDetails />} />
               <Route path="/classes" element={<Classes />} />
