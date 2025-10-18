@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './ManageStaff.css'
 import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
-import { Search, Filter, UserPlus, Eye, Edit, Trash2, X, Save, User, CheckCircle } from 'lucide-react'
+import { Search, Filter, UserPlus, Eye, Edit, Trash2, X, Save, User, CheckCircle, AlertTriangle, Mail, Phone, MapPin, Calendar, Briefcase } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 const ManageStaff = () => {
@@ -96,10 +96,24 @@ const ManageStaff = () => {
         lastName: editFormData.lastName,
         email: editFormData.email,
         mobile: editFormData.mobile,
+        dateOfBirth: editFormData.dateOfBirth,
+        gender: editFormData.gender,
+        address: editFormData.address,
+        city: editFormData.city,
+        state: editFormData.state,
+        pincode: editFormData.pincode,
         staffType: editFormData.staffType,
         department: editFormData.department,
         designation: editFormData.designation,
+        qualification: editFormData.qualification,
+        experience: editFormData.experience,
+        joiningDate: editFormData.joiningDate,
         salary: editFormData.salary,
+        bloodGroup: editFormData.bloodGroup,
+        emergencyContact: editFormData.emergencyContact,
+        emergencyContactName: editFormData.emergencyContactName,
+        aadharNumber: editFormData.aadharNumber,
+        panNumber: editFormData.panNumber,
         updatedAt: new Date().toISOString()
       })
 
@@ -263,74 +277,219 @@ const ManageStaff = () => {
 
       {/* Edit Modal */}
       {showEditModal && (
-        <div className="modal-overlay">
-          <div className="modal-content edit-modal">
-            <div className="modal-header">
+        <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+          <div className="modal-content edit-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header p-3">
               <h2>Edit Staff Details</h2>
               <button className="close-btn" onClick={() => setShowEditModal(false)}>
-                <X size={24} />
+                <X size={20} />
               </button>
             </div>
 
-            <div className="modal-body">
+            <div className="modal-body p-3">
               <div className="edit-form">
                 {/* Personal Information */}
+                <h3 className="form-section-title">Personal Information</h3>
                 <div className="form-grid">
                   <div className="form-group">
                     <label>First Name</label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={editFormData.firstName || ''}
-                      onChange={handleEditInputChange}
-                    />
+                    <div className="input-with-icon">
+                      <User size={18} className="input-icon" />
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={editFormData.firstName || ''}
+                        onChange={handleEditInputChange}
+                        placeholder="Enter first name"
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group">
                     <label>Last Name</label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={editFormData.lastName || ''}
-                      onChange={handleEditInputChange}
-                    />
+                    <div className="input-with-icon">
+                      <User size={18} className="input-icon" />
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={editFormData.lastName || ''}
+                        onChange={handleEditInputChange}
+                        placeholder="Enter last name"
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group">
                     <label>Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={editFormData.email || ''}
-                      onChange={handleEditInputChange}
-                    />
+                    <div className="input-with-icon">
+                      <Mail size={18} className="input-icon" />
+                      <input
+                        type="email"
+                        name="email"
+                        value={editFormData.email || ''}
+                        onChange={handleEditInputChange}
+                        placeholder="Enter email"
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group">
                     <label>Mobile</label>
-                    <input
-                      type="tel"
-                      name="mobile"
-                      value={editFormData.mobile || ''}
+                    <div className="input-with-icon">
+                      <Phone size={18} className="input-icon" />
+                      <input
+                        type="tel"
+                        name="mobile"
+                        value={editFormData.mobile || ''}
+                        onChange={handleEditInputChange}
+                        disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Date of Birth</label>
+                    <div className="input-with-icon">
+                      <Calendar size={18} className="input-icon" />
+                      <input
+                        type="date"
+                        name="dateOfBirth"
+                        value={editFormData.dateOfBirth || ''}
+                        onChange={handleEditInputChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Gender</label>
+                    <select
+                      name="gender"
+                      value={editFormData.gender || ''}
                       onChange={handleEditInputChange}
-                      disabled
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Blood Group</label>
+                    <select
+                      name="bloodGroup"
+                      value={editFormData.bloodGroup || ''}
+                      onChange={handleEditInputChange}
+                    >
+                      <option value="">Select Blood Group</option>
+                      <option value="A+">A+</option>
+                      <option value="A-">A-</option>
+                      <option value="B+">B+</option>
+                      <option value="B-">B-</option>
+                      <option value="O+">O+</option>
+                      <option value="O-">O-</option>
+                      <option value="AB+">AB+</option>
+                      <option value="AB-">AB-</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Aadhar Number</label>
+                    <input
+                      type="text"
+                      name="aadharNumber"
+                      value={editFormData.aadharNumber || ''}
+                      onChange={handleEditInputChange}
+                      placeholder="Enter Aadhar number"
+                      maxLength="12"
                     />
                   </div>
 
                   <div className="form-group">
-                    <label>Staff Type</label>
-                    <select
-                      name="staffType"
-                      value={editFormData.staffType || ''}
+                    <label>PAN Number</label>
+                    <input
+                      type="text"
+                      name="panNumber"
+                      value={editFormData.panNumber || ''}
                       onChange={handleEditInputChange}
-                    >
-                      <option value="">Select Staff Type</option>
-                      <option value="Teaching Staff">Teaching Staff</option>
-                      <option value="Non-Teaching Staff">Non-Teaching Staff</option>
-                      <option value="Administrative Staff">Administrative Staff</option>
-                      <option value="Support Staff">Support Staff</option>
-                      <option value="Others">Others</option>
-                    </select>
+                      placeholder="Enter PAN number"
+                      maxLength="10"
+                    />
+                  </div>
+                </div>
+
+                {/* Address Information */}
+                <h3 className="form-section-title">Address Information</h3>
+                <div className="form-grid">
+                  <div className="form-group form-group-full">
+                    <label>Address</label>
+                    <div className="input-with-icon">
+                      <MapPin size={18} className="input-icon" />
+                      <input
+                        type="text"
+                        name="address"
+                        value={editFormData.address || ''}
+                        onChange={handleEditInputChange}
+                        placeholder="Enter full address"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>City</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={editFormData.city || ''}
+                      onChange={handleEditInputChange}
+                      placeholder="Enter city"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>State</label>
+                    <input
+                      type="text"
+                      name="state"
+                      value={editFormData.state || ''}
+                      onChange={handleEditInputChange}
+                      placeholder="Enter state"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Pincode</label>
+                    <input
+                      type="text"
+                      name="pincode"
+                      value={editFormData.pincode || ''}
+                      onChange={handleEditInputChange}
+                      placeholder="Enter pincode"
+                      maxLength="6"
+                    />
+                  </div>
+                </div>
+
+                {/* Professional Information */}
+                <h3 className="form-section-title">Professional Information</h3>
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>Staff Type</label>
+                    <div className="input-with-icon">
+                      <Briefcase size={18} className="input-icon" />
+                      <select
+                        name="staffType"
+                        value={editFormData.staffType || ''}
+                        onChange={handleEditInputChange}
+                      >
+                        <option value="">Select Staff Type</option>
+                        <option value="Teaching Staff">Teaching Staff</option>
+                        <option value="Non-Teaching Staff">Non-Teaching Staff</option>
+                        <option value="Administrative Staff">Administrative Staff</option>
+                        <option value="Support Staff">Support Staff</option>
+                        <option value="Others">Others</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div className="form-group">
@@ -340,6 +499,7 @@ const ManageStaff = () => {
                       name="department"
                       value={editFormData.department || ''}
                       onChange={handleEditInputChange}
+                      placeholder="Enter department"
                     />
                   </div>
 
@@ -350,24 +510,94 @@ const ManageStaff = () => {
                       name="designation"
                       value={editFormData.designation || ''}
                       onChange={handleEditInputChange}
+                      placeholder="Enter designation"
                     />
                   </div>
 
                   <div className="form-group">
-                    <label>Salary</label>
+                    <label>Qualification</label>
+                    <input
+                      type="text"
+                      name="qualification"
+                      value={editFormData.qualification || ''}
+                      onChange={handleEditInputChange}
+                      placeholder="Enter qualification"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Experience (years)</label>
+                    <input
+                      type="number"
+                      name="experience"
+                      value={editFormData.experience || ''}
+                      onChange={handleEditInputChange}
+                      placeholder="Enter experience"
+                      min="0"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Joining Date</label>
+                    <div className="input-with-icon">
+                      <Calendar size={18} className="input-icon" />
+                      <input
+                        type="date"
+                        name="joiningDate"
+                        value={editFormData.joiningDate || ''}
+                        onChange={handleEditInputChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Monthly Salary</label>
                     <input
                       type="number"
                       name="salary"
                       value={editFormData.salary || ''}
                       onChange={handleEditInputChange}
+                      placeholder="Enter salary"
+                      min="0"
                     />
+                  </div>
+                </div>
+
+                {/* Emergency Contact */}
+                <h3 className="form-section-title">Emergency Contact</h3>
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>Emergency Contact Name</label>
+                    <input
+                      type="text"
+                      name="emergencyContactName"
+                      value={editFormData.emergencyContactName || ''}
+                      onChange={handleEditInputChange}
+                      placeholder="Enter contact name"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Emergency Contact Number</label>
+                    <div className="input-with-icon">
+                      <Phone size={18} className="input-icon" />
+                      <input
+                        type="tel"
+                        name="emergencyContact"
+                        value={editFormData.emergencyContact || ''}
+                        onChange={handleEditInputChange}
+                        placeholder="Enter contact number"
+                        maxLength="10"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="modal-footer">
+            <div className="modal-footer p-3" style={{background: '#ffffff'}}>
               <button className="btn-cancel" onClick={() => setShowEditModal(false)}>
+                <X size={18} />
                 Cancel
               </button>
               <button className="btn-save" onClick={handleUpdateStaff} disabled={updateLoading}>
@@ -381,22 +611,37 @@ const ManageStaff = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="modal-overlay">
-          <div className="modal-content delete-modal">
-            <div className="delete-icon">
-              <Trash2 size={48} />
+        <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
+          <div className="modal-content delete-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Confirm Deletion</h2>
+              <button className="close-btn" onClick={() => setShowDeleteModal(false)}>
+                <X size={20} />
+              </button>
             </div>
-            <h2>Delete Staff</h2>
-            <p>Are you sure you want to delete <strong>{selectedStaff?.firstName} {selectedStaff?.lastName}</strong>?</p>
-            <p className="warning-text">This action cannot be undone.</p>
+
+            <div className="modal-body">
+              <div className="delete-icon">
+                <AlertTriangle size={48} />
+              </div>
+              <h2>Delete Staff Member?</h2>
+              <p>
+                You are about to permanently delete{' '}
+                <strong>{selectedStaff?.firstName} {selectedStaff?.lastName}</strong>
+              </p>
+              <p className="warning-text">
+                ⚠️ This action cannot be undone. All staff data will be permanently removed.
+              </p>
+            </div>
 
             <div className="modal-footer">
               <button className="btn-cancel" onClick={() => setShowDeleteModal(false)}>
+                <X size={18} />
                 Cancel
               </button>
               <button className="btn-delete-confirm" onClick={handleDeleteStaff}>
                 <Trash2 size={18} />
-                Delete Staff
+                Delete Permanently
               </button>
             </div>
           </div>
