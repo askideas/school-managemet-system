@@ -418,30 +418,44 @@
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .edit-form .input-icon {
   position: absolute;
-  left: 12px;
+  left: 14px;
   color: #9ca3af;
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .edit-form .input-with-icon input,
 .edit-form .input-with-icon select {
-  padding-left: 40px;
-}
-
-.edit-form .form-group input,
-.edit-form .form-group select {
-  padding: 11px 14px;
+  width: 100%;
+  padding: 12px 14px 12px 44px;
   border: 2px solid #e5e7eb;
   border-radius: 10px;
   font-size: 14px;
   transition: all 0.2s;
   background: #f9fafb;
+}
+
+.edit-form .form-group input,
+.edit-form .form-group select {
   width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.2s;
+  background: #f9fafb;
+}
+
+.form-group select {
+  padding-left: 14px;
 }
 
 .edit-form .form-group input:hover,
