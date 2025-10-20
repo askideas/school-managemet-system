@@ -4,6 +4,7 @@ import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firesto
 import { db } from '../../firebase'
 import { Search, Filter, UserPlus, Eye, Edit, Trash2, X, Save, User, CheckCircle, AlertTriangle, Mail, Phone, MapPin, Calendar, Briefcase } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { showSuccessToast, showErrorToast } from '../../utils/toast'
 
 const ManageStaff = () => {
   const navigate = useNavigate()
@@ -17,8 +18,6 @@ const ManageStaff = () => {
   const [selectedStaff, setSelectedStaff] = useState(null)
   const [editFormData, setEditFormData] = useState({})
   const [updateLoading, setUpdateLoading] = useState(false)
-  const [successMessage, setSuccessMessage] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     fetchStaff()
@@ -121,12 +120,10 @@ const ManageStaff = () => {
       
       await fetchStaff()
       setShowEditModal(false)
-      setSuccessMessage('Staff updated successfully!')
-      setTimeout(() => setSuccessMessage(''), 3000)
+      showSuccessToast('Staff updated successfully!')
     } catch (error) {
       console.error('Error updating staff:', error)
-      setErrorMessage(`Failed to update staff: ${error.message}`)
-      setTimeout(() => setErrorMessage(''), 3000)
+      showErrorToast(`Failed to update staff: ${error.message}`)
     } finally {
       setUpdateLoading(false)
     }
@@ -137,38 +134,15 @@ const ManageStaff = () => {
       await deleteDoc(doc(db, 'Staff', selectedStaff.id))
       await fetchStaff()
       setShowDeleteModal(false)
-      setSuccessMessage('Staff deleted successfully!')
-      setTimeout(() => setSuccessMessage(''), 3000)
+      showSuccessToast('Staff deleted successfully!')
     } catch (error) {
       console.error('Error deleting staff:', error)
-      setErrorMessage('Failed to delete staff')
-      setTimeout(() => setErrorMessage(''), 3000)
+      showErrorToast('Failed to delete staff')
     }
   }
 
   return (
     <div className="manage-staff-container">
-      {/* Fixed Alert Messages */}
-      {errorMessage && (
-        <div className="alert alert-danger alert-fixed">
-          <X size={18} />
-          <span>{errorMessage}</span>
-          <button className="alert-close" onClick={() => setErrorMessage('')}>
-            <X size={16} />
-          </button>
-        </div>
-      )}
-
-      {successMessage && (
-        <div className="alert alert-success alert-fixed">
-          <CheckCircle size={18} />
-          <span>{successMessage}</span>
-          <button className="alert-close" onClick={() => setSuccessMessage('')}>
-            <X size={16} />
-          </button>
-        </div>
-      )}
-
       {/* Search and Filter Section */}
       <div className="search-filter-section">
         <div className="search-bar">

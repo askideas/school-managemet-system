@@ -3,6 +3,7 @@ import './AddStaff.css'
 import { doc, setDoc } from 'firebase/firestore'
 import { User, Mail, Phone, MapPin, Calendar, Briefcase, Save, X } from 'lucide-react'
 import { db } from '../../firebase'
+import { showSuccessToast, showErrorToast } from '../../utils/toast'
 
 const AddStaff = () => {
   const [formData, setFormData] = useState({
@@ -31,8 +32,6 @@ const AddStaff = () => {
   })
 
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -44,17 +43,15 @@ const AddStaff = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setError('')
-    setSuccess('')
 
     // Validation
     if (!formData.mobile || formData.mobile.length !== 10) {
-      setError('Please enter a valid 10-digit mobile number')
+      showErrorToast('Please enter a valid 10-digit mobile number')
       return
     }
 
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.staffType) {
-      setError('Please fill all required fields')
+      showErrorToast('Please fill all required fields')
       return
     }
 
@@ -91,7 +88,7 @@ const AddStaff = () => {
       await setDoc(doc(db, 'Staff', formData.mobile), staffData)
       console.log('Staff saved successfully!')
 
-      setSuccess('Staff added successfully!')
+      showSuccessToast('Staff added successfully!')
       
       // Reset form
       setFormData({
@@ -119,10 +116,9 @@ const AddStaff = () => {
         panNumber: ''
       })
 
-      setTimeout(() => setSuccess(''), 3000)
     } catch (err) {
       console.error('Error details:', err)
-      setError(`Failed to add staff: ${err.message}`)
+      showErrorToast(`Failed to add staff: ${err.message}`)
     } finally {
       setLoading(false)
     }
@@ -153,33 +149,10 @@ const AddStaff = () => {
       aadharNumber: '',
       panNumber: ''
     })
-    setError('')
-    setSuccess('')
   }
 
   return (
     <div className="add-staff-container">
-      {/* Fixed Alert Messages */}
-      {error && (
-        <div className="alert alert-danger alert-fixed">
-          <X size={18} />
-          <span>{error}</span>
-          <button className="alert-close" onClick={() => setError('')}>
-            <X size={16} />
-          </button>
-        </div>
-      )}
-
-      {success && (
-        <div className="alert alert-success alert-fixed">
-          <Save size={18} />
-          <span>{success}</span>
-          <button className="alert-close" onClick={() => setSuccess('')}>
-            <X size={16} />
-          </button>
-        </div>
-      )}
-
       <div className="add-staff-header">
         <h2>Add New Staff</h2>
         <p>Fill in the details below to add a new staff member</p>

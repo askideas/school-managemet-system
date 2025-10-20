@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './App.css'
 import { BrowserRouter, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import Dashboard from './Pages/Dashboard/Dashboard'
 import { schoolMenuItems } from './SMSData'
 import AddTeacher from './Pages/AddTeacher/AddTeacher'
@@ -171,6 +173,29 @@ const App = () => {
             </Routes>
           </div>
         </div>
+
+        {/* Custom Toast Container */}
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick={true}
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable={true}
+          pauseOnHover={true}
+          closeButton={false}
+          limit={1}
+          style={{
+            top: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 'auto',
+            minWidth: '400px',
+            maxWidth: '600px'
+          }}
+        />
       </div>
     </BrowserRouter>
   )
