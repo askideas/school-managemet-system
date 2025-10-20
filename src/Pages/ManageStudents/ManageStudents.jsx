@@ -120,8 +120,7 @@ const ManageStudents = () => {
   }
 
   const handleViewClick = (student) => {
-    setSelectedStudent(student)
-    setShowViewModal(true)
+    navigate(`/students/${student.admissionNumber}`)
   }
 
   const handleEditClick = (student) => {

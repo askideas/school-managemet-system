@@ -24,6 +24,7 @@ import ManageStaff from './Pages/ManageStaff/ManageStaff'
 import TimeTables from './Pages/TimeTables/TimeTables'
 import AddStudent from './Pages/AddStudent/AddStudent'
 import ManageStudents from './Pages/ManageStudents/ManageStudents'
+import StudentDetails from './Pages/StudentDetails/StudentDetails'
 
 // Component to display page title based on route
 const TopBar = () => {
@@ -178,6 +179,7 @@ const App = () => {
               <Route path="/timetables" element={<TimeTables />} />
               <Route path="/addstudent" element={<AddStudent />} />
               <Route path="/students" element={<ManageStudents />} />
+              <Route path="/students/:studentId" element={<StudentDetails />} />
             </Routes>
           </div>
         </div>
