@@ -22,6 +22,7 @@ import Slots from './Pages/Slots/Slots'
 import AddStaff from './Pages/AddStaff/AddStaff'
 import ManageStaff from './Pages/ManageStaff/ManageStaff'
 import TimeTables from './Pages/TimeTables/TimeTables'
+import AddStudent from './Pages/AddStudent/AddStudent'
 
 // Component to display page title based on route
 const TopBar = () => {
@@ -46,7 +47,8 @@ const TopBar = () => {
       '/payroll': 'Payroll',
       '/financereport': 'Finance Report',
       '/slots': 'Slots',
-      '/timetables': 'Time Tables'
+      '/timetables': 'Time Tables',
+      '/addstudent': 'Add Student'
     }
     
     return titleMap[path] || 'School Management System'
@@ -173,6 +175,7 @@ const App = () => {
               <Route path="/financereport" element={<FinanceReport />} />
               <Route path="/slots" element={<Slots />} />
               <Route path="/timetables" element={<TimeTables />} />
+              <Route path="/addstudent" element={<AddStudent />} />
             </Routes>
           </div>
         </div>
