@@ -25,11 +25,11 @@ export const showSuccessToast = (message) => {
     ),
     {
       position: "top-center",
-      autoClose: 3000,
+      autoClose: 1000,
       hideProgressBar: true,
       closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
+      pauseOnHover: false,
+      draggable: false,
     }
   )
 }
@@ -40,18 +40,18 @@ export const showErrorToast = (message) => {
   toast.error(
     ({ closeToast }) => (
       <ToastContent
-        icon={<X size={18} />}
+        // icon={<X size={18} />}
         message={message}
         onClose={closeToast}
       />
     ),
     {
       position: "top-center",
-      autoClose: 3000,
+      autoClose: 1000,
       hideProgressBar: true,
       closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
+      pauseOnHover: false,
+      draggable: false,
     }
   )
 }
