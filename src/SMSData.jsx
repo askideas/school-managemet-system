@@ -24,25 +24,6 @@ export const schoolMenuItems = [
         hasSubmenu: false
     },
     {
-        id: 'teachers',
-        label: 'Teachers',
-        icon: <Users size={18} />,
-        link: false,
-        hasSubmenu: true,
-        subItems: [
-            {
-                id: 'all-teachers',
-                label: 'Teachers',
-                link: '/teachers'
-            },
-            {
-                id: 'add-teacher',
-                label: 'Add Teacher',
-                link: '/addteacher'
-            },
-        ]
-    },
-    {
         id: 'staff',
         label: 'Staff',
         icon: <Briefcase size={18} />,
