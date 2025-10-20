@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './StudentDetails.css'
 import { useParams, useNavigate } from 'react-router-dom'
-import { doc, getDoc, updateDoc, collection, getDocs, setDoc, addDoc } from 'firebase/firestore'
+import { doc, getDoc, updateDoc, collection, getDocs, setDoc, addDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { 
   ArrowLeft, 
@@ -23,7 +23,10 @@ import {
   DollarSign,
   CheckCircle,
   Clock,
-  AlertCircle
+  AlertTriangle,
+  Trash2,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 import { showSuccessToast, showErrorToast } from '../../utils/toast'
 
@@ -51,11 +54,31 @@ const StudentDetails = () => {
   const [selectedStudentClass, setSelectedStudentClass] = useState('')
   const [paymentPlan, setPaymentPlan] = useState({
     totalFee: '',
-    installments: 1,
-    dueDate: '',
     description: ''
   })
   const [paymentLoading, setPaymentLoading] = useState(false)
+  
+  // New states for installment management
+  const [showInstallmentModal, setShowInstallmentModal] = useState(false)
+  const [selectedPlanForInstallment, setSelectedPlanForInstallment] = useState(null)
+  const [installmentData, setInstallmentData] = useState({
+    amount: '',
+    paymentMode: '',
+    comment: '',
+    paymentDate: new Date().toISOString().split('T')[0]
+  })
+  const [installmentLoading, setInstallmentLoading] = useState(false)
+
+  // New states for edit and delete functionality
+  const [editingPlan, setEditingPlan] = useState(null)
+  const [editPlanData, setEditPlanData] = useState({})
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [planToDelete, setPlanToDelete] = useState(null)
+  const [editPlanLoading, setEditPlanLoading] = useState(false)
+
+  // New states for pagination
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(12)
 
   useEffect(() => {
     if (studentId) {
@@ -253,7 +276,6 @@ const StudentDetails = () => {
     try {
       setPaymentLoading(true)
       const studentClass = studentClasses.find(sc => sc.id === selectedStudentClass)
-      const installmentAmount = Math.ceil(parseFloat(paymentPlan.totalFee) / parseInt(paymentPlan.installments))
 
       const paymentPlanDoc = {
         studentId,
@@ -261,13 +283,11 @@ const StudentDetails = () => {
         className: studentClass.className,
         sectionName: studentClass.sectionName,
         totalFee: parseFloat(paymentPlan.totalFee),
-        installments: parseInt(paymentPlan.installments),
-        installmentAmount,
-        dueDate: paymentPlan.dueDate,
         description: paymentPlan.description,
         status: 'active',
         paidAmount: 0,
         pendingAmount: parseFloat(paymentPlan.totalFee),
+        installments: [],
         createdAt: new Date().toISOString()
       }
 
@@ -275,8 +295,6 @@ const StudentDetails = () => {
       
       setPaymentPlan({
         totalFee: '',
-        installments: 1,
-        dueDate: '',
         description: ''
       })
       setSelectedStudentClass('')
@@ -285,7 +303,6 @@ const StudentDetails = () => {
       await fetchPaymentPlans()
       await addActivity('payment_plan_created', `Payment plan created for ${studentClass.className}`, {
         totalFee: parseFloat(paymentPlan.totalFee),
-        installments: parseInt(paymentPlan.installments),
         className: studentClass.className
       })
     } catch (error) {
@@ -293,6 +310,96 @@ const StudentDetails = () => {
       showErrorToast('Failed to create payment plan')
     } finally {
       setPaymentLoading(false)
+    }
+  }
+
+  const handleAddInstallment = (plan) => {
+    setSelectedPlanForInstallment(plan)
+    setInstallmentData({
+      amount: '',
+      paymentMode: '',
+      comment: '',
+      paymentDate: new Date().toISOString().split('T')[0]
+    })
+    setShowInstallmentModal(true)
+  }
+
+  const handleInstallmentSubmit = async () => {
+    if (!installmentData.amount || !installmentData.paymentMode) {
+      showErrorToast('Please fill all required fields')
+      return
+    }
+
+    if (parseFloat(installmentData.amount) > selectedPlanForInstallment.pendingAmount) {
+      showErrorToast('Payment amount cannot exceed pending amount')
+      return
+    }
+
+    try {
+      setInstallmentLoading(true)
+      
+      const newInstallment = {
+        id: Date.now().toString(),
+        amount: parseFloat(installmentData.amount),
+        paymentMode: installmentData.paymentMode,
+        comment: installmentData.comment,
+        paymentDate: installmentData.paymentDate,
+        createdAt: new Date().toISOString()
+      }
+
+      const updatedInstallments = [...(selectedPlanForInstallment.installments || []), newInstallment]
+      const newPaidAmount = selectedPlanForInstallment.paidAmount + parseFloat(installmentData.amount)
+      const newPendingAmount = selectedPlanForInstallment.totalFee - newPaidAmount
+
+      await updateDoc(doc(db, 'PaymentPlans', selectedPlanForInstallment.id), {
+        installments: updatedInstallments,
+        paidAmount: newPaidAmount,
+        pendingAmount: newPendingAmount,
+        status: newPendingAmount === 0 ? 'completed' : 'active',
+        updatedAt: new Date().toISOString()
+      })
+
+      setShowInstallmentModal(false)
+      setSelectedPlanForInstallment(null)
+      showSuccessToast('Installment added successfully!')
+      
+      await fetchPaymentPlans()
+      await addActivity('installment_added', `Installment payment of ${formatCurrency(parseFloat(installmentData.amount))} added`, {
+        planId: selectedPlanForInstallment.id,
+        amount: parseFloat(installmentData.amount),
+        paymentMode: installmentData.paymentMode,
+        className: selectedPlanForInstallment.className
+      })
+    } catch (error) {
+      console.error('Error adding installment:', error)
+      showErrorToast('Failed to add installment')
+    } finally {
+      setInstallmentLoading(false)
+    }
+  }
+
+  // Remove old edit/delete plan functions and replace with simplified ones
+  const handleDeleteClick = (plan) => {
+    setPlanToDelete(plan)
+    setShowDeleteModal(true)
+  }
+
+  const handleDeletePlan = async () => {
+    try {
+      await deleteDoc(doc(db, 'PaymentPlans', planToDelete.id))
+      
+      setShowDeleteModal(false)
+      setPlanToDelete(null)
+      showSuccessToast('Payment plan deleted successfully!')
+      
+      await fetchPaymentPlans()
+      await addActivity('payment_plan_deleted', `Payment plan deleted for ${planToDelete.className}`, {
+        planId: planToDelete.id,
+        className: planToDelete.className
+      })
+    } catch (error) {
+      console.error('Error deleting payment plan:', error)
+      showErrorToast('Failed to delete payment plan')
     }
   }
 
@@ -316,15 +423,70 @@ const StudentDetails = () => {
   const getActivityIcon = (type) => {
     switch (type) {
       case 'profile_update':
-        return <Edit size={16} className="students-activity-icon-edit" />
+        return <Edit size={18} className="students-activity-icon-edit" />
       case 'class_enrollment':
-        return <School size={16} className="students-activity-icon-class" />
+        return <School size={18} className="students-activity-icon-class" />
       case 'payment_plan_created':
-        return <CreditCard size={16} className="students-activity-icon-payment" />
+        return <CreditCard size={18} className="students-activity-icon-payment" />
+      case 'payment_plan_updated':
+        return <Edit size={18} className="students-activity-icon-payment" />
+      case 'payment_plan_deleted':
+        return <Trash2 size={18} className="students-activity-icon-edit" />
+      case 'installment_added':
+        return <DollarSign size={18} className="students-activity-icon-payment" />
       default:
-        return <Activity size={16} className="students-activity-icon-default" />
+        return <Activity size={18} className="students-activity-icon-default" />
     }
   }
+
+  // Add pagination logic
+  const getPaginatedActivities = () => {
+    const sortedActivities = [...activities].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return sortedActivities.slice(startIndex, endIndex)
+  }
+
+  const getTotalPages = () => {
+    return Math.ceil(activities.length / itemsPerPage)
+  }
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
+  const getPageNumbers = () => {
+    const totalPages = getTotalPages()
+    const pages = []
+    const maxVisiblePages = 5
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 5; i++) {
+          pages.push(i)
+        }
+      } else if (currentPage >= totalPages - 2) {
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i)
+        }
+      } else {
+        for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+          pages.push(i)
+        }
+      }
+    }
+    
+    return pages
+  }
+
+  // Reset pagination when activities change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [activities])
 
   if (loading && !student) {
     return (
@@ -736,54 +898,34 @@ const StudentDetails = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Total Fee (₹)</label>
+                  <label>Total Amount (₹)</label>
                   <input
                     type="number"
                     value={paymentPlan.totalFee}
                     onChange={(e) => setPaymentPlan({...paymentPlan, totalFee: e.target.value})}
-                    placeholder="Enter total fee"
+                    placeholder="Enter total amount"
                     min="0"
                   />
                 </div>
-                <div className="form-group">
-                  <label>Number of Installments</label>
-                  <select
-                    value={paymentPlan.installments}
-                    onChange={(e) => setPaymentPlan({...paymentPlan, installments: e.target.value})}
-                  >
-                    <option value="1">1 Installment</option>
-                    <option value="2">2 Installments</option>
-                    <option value="3">3 Installments</option>
-                    <option value="4">4 Installments</option>
-                    <option value="6">6 Installments</option>
-                    <option value="12">12 Installments</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Due Date</label>
-                  <input
-                    type="date"
-                    value={paymentPlan.dueDate}
-                    onChange={(e) => setPaymentPlan({...paymentPlan, dueDate: e.target.value})}
-                  />
-                </div>
                 <div className="form-group full-width">
-                  <label>Description</label>
-                  <textarea
+                  <label>Description (Optional)</label>
+                  <input
+                    type="text"
                     value={paymentPlan.description}
                     onChange={(e) => setPaymentPlan({...paymentPlan, description: e.target.value})}
-                    placeholder="Payment plan description"
-                    rows="3"
+                    placeholder="Payment description"
                   />
                 </div>
-                <button 
-                  className="create-payment-btn"
-                  onClick={handleCreatePaymentPlan}
-                  disabled={!selectedStudentClass || !paymentPlan.totalFee || paymentLoading}
-                >
-                  <Plus size={18} />
-                  {paymentLoading ? 'Creating...' : 'Create Payment Plan'}
-                </button>
+                <div className="payment-form-actions">
+                  <button 
+                    className="create-payment-btn"
+                    onClick={handleCreatePaymentPlan}
+                    disabled={!selectedStudentClass || !paymentPlan.totalFee || paymentLoading}
+                  >
+                    <Plus size={18} />
+                    {paymentLoading ? 'Creating...' : 'Add Payment Plan'}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -800,45 +942,84 @@ const StudentDetails = () => {
                   {paymentPlans.map((plan) => (
                     <div key={plan.id} className="payment-plan-card">
                       <div className="payment-card-header">
-                        <div className="payment-icon">
-                          <DollarSign size={24} />
+                        <div className="payment-header-left">
+                          <div className="payment-icon">
+                            <DollarSign size={24} />
+                          </div>
+                          <div className="payment-title-section">
+                            <h4>{plan.className} - Section {plan.sectionName}</h4>
+                            <span className={`payment-status ${plan.status}`}>
+                              {plan.status}
+                            </span>
+                          </div>
                         </div>
-                        <span className={`payment-status ${plan.status}`}>
-                          {plan.status}
-                        </span>
+                        <div className="payment-card-actions">
+                          <button 
+                            className="payment-add-installment-btn"
+                            onClick={() => handleAddInstallment(plan)}
+                            title="Add Installment"
+                            disabled={plan.pendingAmount === 0}
+                          >
+                            <Plus size={16} />
+                          </button>
+                          <button 
+                            className="payment-delete-btn"
+                            onClick={() => handleDeleteClick(plan)}
+                            title="Delete Payment Plan"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
                       </div>
+                      
                       <div className="payment-card-body">
-                        <h4>{plan.className} - Section {plan.sectionName}</h4>
-                        <div className="payment-details">
-                          <div className="payment-detail">
-                            <span className="label">Total Fee:</span>
-                            <span className="value">{formatCurrency(plan.totalFee)}</span>
+                        <div className="payment-summary">
+                          <div className="payment-summary-item">
+                            <span className="label">Total Amount:</span>
+                            <span className="value total">{formatCurrency(plan.totalFee)}</span>
                           </div>
-                          <div className="payment-detail">
-                            <span className="label">Installments:</span>
-                            <span className="value">{plan.installments}</span>
-                          </div>
-                          <div className="payment-detail">
-                            <span className="label">Per Installment:</span>
-                            <span className="value">{formatCurrency(plan.installmentAmount)}</span>
-                          </div>
-                          <div className="payment-detail">
+                          <div className="payment-summary-item">
                             <span className="label">Paid Amount:</span>
-                            <span className="value paid">{formatCurrency(plan.paidAmount)}</span>
+                            <span className="value paid">{formatCurrency(plan.paidAmount || 0)}</span>
                           </div>
-                          <div className="payment-detail">
+                          <div className="payment-summary-item">
                             <span className="label">Pending Amount:</span>
                             <span className="value pending">{formatCurrency(plan.pendingAmount)}</span>
                           </div>
-                          {plan.dueDate && (
-                            <div className="payment-detail">
-                              <span className="label">Due Date:</span>
-                              <span className="value">{formatDate(plan.dueDate)}</span>
-                            </div>
-                          )}
                         </div>
+
                         {plan.description && (
-                          <p className="payment-description">{plan.description}</p>
+                          <div className="payment-description">
+                            <p>{plan.description}</p>
+                          </div>
+                        )}
+
+                        {/* Installments List */}
+                        {plan.installments && plan.installments.length > 0 && (
+                          <div className="installments-section">
+                            <h5>Payment History ({plan.installments.length} payments)</h5>
+                            <div className="installments-list">
+                              {plan.installments.map((installment, index) => (
+                                <div key={installment.id} className="installment-item">
+                                  <div className="installment-header">
+                                    <div className="installment-left">
+                                      <span className="installment-number">#{index + 1}</span>
+                                      <span className="installment-amount">{formatCurrency(installment.amount)}</span>
+                                    </div>
+                                    <span className="installment-date">{formatDate(installment.paymentDate)}</span>
+                                  </div>
+                                  <div className="installment-details">
+                                    <div className="installment-detail-row">
+                                      <span className="payment-mode">Mode: {installment.paymentMode}</span>
+                                      {installment.comment && (
+                                        <span className="installment-comment">Note: {installment.comment}</span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -854,47 +1035,256 @@ const StudentDetails = () => {
           <div className="activity-tab">
             <div className="activity-header">
               <h2>Student Activity Log</h2>
+              {activities.length > 0 && (
+                <div className="activity-stats">
+                  <span className="activity-count">
+                    {activities.length} {activities.length === 1 ? 'Activity' : 'Activities'}
+                  </span>
+                  <span className="page-indicator">
+                    Page {currentPage} of {getTotalPages()}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="activity-timeline">
               {activities.length === 0 ? (
                 <div className="empty-state">
-                  <Activity size={48} />
-                  <p>No activities recorded yet</p>
+                  <Activity size={64} />
+                  <h4>No Activities Found</h4>
+                  <p>Student activities will appear here as they are recorded</p>
                 </div>
               ) : (
-                <div className="timeline">
-                  {activities.map((activity) => (
-                    <div key={activity.id} className="timeline-item">
-                      <div className="timeline-marker">
-                        {getActivityIcon(activity.type)}
-                      </div>
-                      <div className="timeline-content">
-                        <div className="activity-header">
-                          <h4>{activity.description}</h4>
-                          <span className="activity-time">
-                            {new Date(activity.timestamp).toLocaleString()}
-                          </span>
+                <>
+                  <div className="timeline">
+                    {getPaginatedActivities().map((activity) => (
+                      <div key={activity.id} className="timeline-item">
+                        <div className="timeline-marker">
+                          {getActivityIcon(activity.type)}
                         </div>
-                        {activity.details && (
-                          <div className="activity-details">
-                            {Object.entries(activity.details).map(([key, value]) => (
-                              <div key={key} className="detail-item">
-                                <span className="detail-key">{key}:</span>
-                                <span className="detail-value">{value}</span>
-                              </div>
-                            ))}
+                        <div className="timeline-content">
+                          <div className="activity-header">
+                            <h4>{activity.description}</h4>
+                            <span className="activity-time">
+                              {new Date(activity.timestamp).toLocaleString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
+                            </span>
                           </div>
-                        )}
+                          {activity.details && Object.keys(activity.details).length > 0 && (
+                            <div className="activity-details">
+                              {Object.entries(activity.details).map(([key, value]) => (
+                                <div key={key} className="detail-item">
+                                  <span className="detail-key">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span>
+                                  <span className="detail-value">
+                                    {typeof value === 'string' && value.startsWith('₹') ? value : 
+                                     typeof value === 'number' && key.toLowerCase().includes('fee') ? formatCurrency(value) :
+                                     String(value)}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Pagination */}
+                  {getTotalPages() > 1 && (
+                    <div className="activity-pagination">
+                      <div className="pagination-container">
+                        <button 
+                          className="pagination-btn pagination-prev"
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        >
+                          <ChevronLeft size={18} />
+                          Previous
+                        </button>
+
+                        <div className="pagination-numbers">
+                          {getPageNumbers().map((page) => (
+                            <button
+                              key={page}
+                              className={`pagination-number ${currentPage === page ? 'active' : ''}`}
+                              onClick={() => handlePageChange(page)}
+                            >
+                              {page}
+                            </button>
+                          ))}
+                        </div>
+
+                        <button 
+                          className="pagination-btn pagination-next"
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === getTotalPages()}
+                        >
+                          Next
+                          <ChevronRight size={18} />
+                        </button>
+                      </div>
+
+                      <div className="pagination-info">
+                        <span>
+                          Showing {((currentPage - 1) * itemsPerPage) + 1} to{' '}
+                          {Math.min(currentPage * itemsPerPage, activities.length)} of{' '}
+                          {activities.length} activities
+                        </span>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  )}
+                </>
               )}
             </div>
           </div>
         )}
       </div>
+
+      {/* Delete Payment Plan Modal */}
+      {showDeleteModal && planToDelete && (
+        <div className="payment-modal-overlay" onClick={() => setShowDeleteModal(false)}>
+          <div className="payment-modal-content payment-delete-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="payment-modal-header">
+              <h2>Delete Payment Plan</h2>
+              <button className="payment-close-btn" onClick={() => setShowDeleteModal(false)}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="payment-modal-body">
+              <div className="payment-delete-icon">
+                <AlertTriangle size={48} />
+              </div>
+              <h3>Delete Payment Plan?</h3>
+              <p>
+                Are you sure you want to delete the payment plan for{' '}
+                <strong>{planToDelete.className} - Section {planToDelete.sectionName}</strong>?
+              </p>
+              <p>
+                Total Fee: <strong>{formatCurrency(planToDelete.totalFee)}</strong>
+              </p>
+              <p className="payment-warning-text">
+                ⚠️ This action cannot be undone. All payment plan data will be permanently removed.
+              </p>
+            </div>
+
+            <div className="payment-modal-footer">
+              <button className="payment-btn-cancel" onClick={() => setShowDeleteModal(false)}>
+                <X size={18} />
+                Cancel
+              </button>
+              <button className="payment-btn-delete-confirm" onClick={handleDeletePlan}>
+                <Trash2 size={18} />
+                Delete Plan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Installment Modal */}
+      {showInstallmentModal && selectedPlanForInstallment && (
+        <div className="payment-modal-overlay" onClick={() => setShowInstallmentModal(false)}>
+          <div className="payment-modal-content installment-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="payment-modal-header">
+              <h2>Add Installment Payment</h2>
+              <button className="payment-close-btn" onClick={() => setShowInstallmentModal(false)}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="payment-modal-body">
+              <div className="installment-plan_info">
+                <h3>{selectedPlanForInstallment.className} - Section {selectedPlanForInstallment.sectionName}</h3>
+                <div className="plan-summary">
+                  <div className="summary-item">
+                    <span>Total Amount:</span>
+                    <span>{formatCurrency(selectedPlanForInstallment.totalFee)}</span>
+                  </div>
+                  <div className="summary-item">
+                    <span>Paid Amount:</span>
+                    <span className="paid">{formatCurrency(selectedPlanForInstallment.paidAmount)}</span>
+                  </div>
+                  <div className="summary-item">
+                    <span>Pending Amount:</span>
+                    <span className="pending">{formatCurrency(selectedPlanForInstallment.pendingAmount)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="installment-form">
+                <div className="installment-form-grid">
+                  <div className="form-group">
+                    <label>Payment Amount (₹) <span className="required">*</span></label>
+                    <input
+                      type="number"
+                      value={installmentData.amount}
+                      onChange={(e) => setInstallmentData({...installmentData, amount: e.target.value})}
+                      placeholder="Enter payment amount"
+                      min="0"
+                      max={selectedPlanForInstallment.pendingAmount}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Payment Mode <span className="required">*</span></label>
+                    <select
+                      value={installmentData.paymentMode}
+                      onChange={(e) => setInstallmentData({...installmentData, paymentMode: e.target.value})}
+                    >
+                      <option value="">Select Payment Mode</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Online Transfer">Online Transfer</option>
+                      <option value="Cheque">Cheque</option>
+                      <option value="Card">Card Payment</option>
+                      <option value="UPI">UPI</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Payment Date</label>
+                    <input
+                      type="date"
+                      value={installmentData.paymentDate}
+                      onChange={(e) => setInstallmentData({...installmentData, paymentDate: e.target.value})}
+                    />
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label>Comment</label>
+                    <textarea
+                      value={installmentData.comment}
+                      onChange={(e) => setInstallmentData({...installmentData, comment: e.target.value})}
+                      placeholder="Add any comments or notes"
+                      rows="3"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="payment-modal-footer">
+              <button className="payment-btn-cancel" onClick={() => setShowInstallmentModal(false)}>
+                <X size={18} />
+                Cancel
+              </button>
+              <button 
+                className="payment-btn-add-installment" 
+                onClick={handleInstallmentSubmit}
+                disabled={!installmentData.amount || !installmentData.paymentMode || installmentLoading}
+              >
+                <Plus size={18} />
+                {installmentLoading ? 'Adding...' : 'Add Payment'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
